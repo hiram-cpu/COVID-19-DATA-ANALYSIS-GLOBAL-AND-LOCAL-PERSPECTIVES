@@ -1,0 +1,84 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "ebb3985753800ba50552",
+  "position": {
+    "x": 665.22092190112255,
+    "y": 135.73441604967758,
+    "z": 3000,
+    "height": 106.38643420109864,
+    "width": 591.85096727967516,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "COVID-19"
+                    }
+                  },
+                  "Property": "Tasa de Mortalidad"
+                }
+              },
+              "queryRef": "COVID-19.Tasa de Mortalidad",
+              "nativeQueryRef": "Tasa de Mortalidad"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "COVID-19"
+                    }
+                  },
+                  "Property": "Total Confirmed"
+                }
+              },
+              "queryRef": "COVID-19.Total Confirmed",
+              "nativeQueryRef": "Total Confirmed"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "COVID-19"
+                    }
+                  },
+                  "Property": "Total Deaths"
+                }
+              },
+              "queryRef": "COVID-19.Total Deaths",
+              "nativeQueryRef": "Total Deaths"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "COVID-19"
+                  }
+                },
+                "Property": "Tasa de Mortalidad"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

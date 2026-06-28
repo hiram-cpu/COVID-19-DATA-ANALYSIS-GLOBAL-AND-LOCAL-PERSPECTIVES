@@ -1,0 +1,160 @@
+table COVID-19
+	lineageTag: f3be9407-61fc-4752-ae86-200caca217c0
+
+	measure 'Total Confirmed' = ```
+			
+			VAR CONFIRMED = 
+			SUMX(
+			    VALUES('COVID-19'[Country/Region]),
+			    SUMX(
+			        VALUES('COVID-19'[Province/State]),
+			        CALCULATE(
+			            MAX('COVID-19'[Confirmed])
+			        )
+			    )
+			)
+			RETURN
+			IF(CONFIRMED = 0, BLANK(), CONFIRMED)
+			```
+		lineageTag: 2a3579df-3e7b-49f1-bb54-5b6024da5485
+
+	measure 'Total Deaths' = ```
+			
+			VAR DEATHS = 
+			SUMX(
+			    VALUES('COVID-19'[Country/Region]),
+			    SUMX(
+			        VALUES('COVID-19'[Province/State]),
+			        CALCULATE(
+			            MAX('COVID-19'[Deaths])
+			        )
+			    )
+			)
+			RETURN
+			IF(DEATHS = 0, BLANK(), DEATHS)
+			```
+		lineageTag: f552accf-d0ff-4f46-b13d-f68d1570106e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Daily New Cases' = ```
+			
+			VAR CURRENT_DAY = 
+			    [Total Confirmed]
+			VAR PREVIOS_DAY = 
+			    CALCULATE([Total Confirmed], 
+			        DATEADD('CALENDAR'[Date], -1, DAY)
+			    )
+			RETURN 
+			IF(ISBLANK(PREVIOS_DAY), BLANK(), CURRENT_DAY - PREVIOS_DAY)
+			```
+		lineageTag: dd39012f-090c-435d-9855-d23d03917f34
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Tasa de Mortalidad' = ```
+			
+			DIVIDE(
+			    'COVID-19'[Total Deaths], 
+			    'COVID-19'[Total Confirmed], 
+			    0
+			)
+			```
+		lineageTag: 19bd75eb-87b2-4edc-ae81-fd8baf5711a5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Province/State
+		dataType: string
+		lineageTag: b80a3957-af32-4608-affc-d61de94a4e3c
+		summarizeBy: none
+		sourceColumn: Province/State
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country/Region
+		dataType: string
+		lineageTag: c66c95e7-12c4-4f54-9437-817b0673afa6
+		summarizeBy: none
+		sourceColumn: Country/Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Lat
+		dataType: double
+		lineageTag: 9fca3e00-ca6f-4549-8782-dad7f7e0329b
+		summarizeBy: sum
+		sourceColumn: Lat
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Long
+		dataType: double
+		lineageTag: d31cb14d-2fc4-4655-8766-c8854754a550
+		summarizeBy: sum
+		sourceColumn: Long
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9db4981d-fcad-4288-8d73-0ed4f642aabd
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Confirmed
+		dataType: double
+		lineageTag: adb8d7e2-ebca-4430-8415-03a9bd892a40
+		summarizeBy: sum
+		sourceColumn: Confirmed
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Deaths
+		dataType: double
+		lineageTag: 815cbd46-5b20-4494-9771-0666eafa9582
+		summarizeBy: sum
+		sourceColumn: Deaths
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Recovered
+		dataType: double
+		lineageTag: b12999ae-2a91-45a1-b690-6b6acad98e42
+		summarizeBy: sum
+		sourceColumn: Recovered
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition COVID-19 = m
+		mode: import
+		source =
+				let
+				    Source = Table.NestedJoin(Merge1, {"Province/State", "Country/Region", "Date"}, Recovered, {"Province/State", "Country/Region", "Date"}, "Recovered", JoinKind.LeftOuter),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"Deaths.Deaths", "Deaths"}}),
+				    #"Expanded Recovered" = Table.ExpandTableColumn(#"Renamed Columns", "Recovered", {"Recovered"}, {"Recovered.Recovered"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Recovered",{{"Confirmed", type number}, {"Deaths", type number}, {"Recovered.Recovered", type number}}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Changed Type",{{"Recovered.Recovered", "Recovered"}}),
+				    #"Changed Type with Locale" = Table.TransformColumnTypes(#"Renamed Columns1", {{"Date", type date}}, "en-US")
+				in
+				    #"Changed Type with Locale"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

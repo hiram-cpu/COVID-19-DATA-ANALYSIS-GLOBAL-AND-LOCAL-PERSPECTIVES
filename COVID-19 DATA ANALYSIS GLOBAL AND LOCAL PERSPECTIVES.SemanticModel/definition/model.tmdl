@@ -1,0 +1,21 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-MX
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["Confirmed","Deaths","Merge1","Recovered","COVID-19"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table COVID-19
+ref table DateTableTemplate_808e8690-11b4-4554-9413-b407e6f829ff
+ref table CALENDAR
+ref table LocalDateTable_2bd45328-0fe2-4836-8e04-f3154b843eaa
+
+ref cultureInfo en-US
+

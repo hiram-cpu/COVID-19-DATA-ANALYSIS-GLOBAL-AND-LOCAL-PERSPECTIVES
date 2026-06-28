@@ -1,0 +1,9 @@
+relationship c7a7d769-92df-4a41-a423-9eea1ebea748
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CALENDAR.Date
+	toColumn: LocalDateTable_2bd45328-0fe2-4836-8e04-f3154b843eaa.Date
+
+relationship d540cecb-ab70-ed5a-c658-32ef5e265a5b
+	fromColumn: COVID-19.Date
+	toColumn: CALENDAR.Date
+
