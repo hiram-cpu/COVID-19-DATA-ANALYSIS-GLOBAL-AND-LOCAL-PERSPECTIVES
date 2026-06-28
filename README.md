@@ -30,3 +30,11 @@ El reporte interactivo consta de las siguientes secciones navegables:
 
 ## 🚀 Visualizar el reporte
 ![Tablero de Control de COVID-19](Covid-1.png)
+
+![Tablero de Control de COVID-19](Covid-2.png)
+
+![Tablero de Control de COVID-19](Covid-3.png)
+
+![Tablero de Control de COVID-19](Covid-4.png)
+
+![Tablero de Control de COVID-19](Covid-5.png)
