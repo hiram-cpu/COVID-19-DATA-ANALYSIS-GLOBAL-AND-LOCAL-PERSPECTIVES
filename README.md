@@ -28,7 +28,5 @@ El reporte interactivo consta de las siguientes secciones navegables:
 * **Microsoft Power BI:** Modelado de datos, creación de relaciones, medidas calculadas y diseño de la interfaz visual (UI).
 * **DAX (Data Analysis Expressions):** Creación de métricas clave como *Tasa de Mortalidad*, *Total de Muertes* y *Total de Confirmados*.
 
-## 🚀 Cómo visualizar el reporte
-1. Clona este repositorio en tu máquina local:
-   ```bash
-   git clone [https://github.com/tu-usuario/covid19-actuarial-analysis.git](https://github.com/tu-usuario/covid19-actuarial-analysis.git)
+## 🚀 Visualizar el reporte
+![Tablero de Control de COVID-19](Covid-1.png)
